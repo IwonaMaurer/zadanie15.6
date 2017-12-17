@@ -1,4 +1,3 @@
-
 class Stopwatch {
     constructor(display) {
         this.running = false;
@@ -13,28 +12,29 @@ class Stopwatch {
             seconds: 0,
             miliseconds: 0
         };
+    }
 
-}
     print() {
         this.display.innerText = this.format(this.times);
     }
-    
+
     format(times) {
         return `${pad0(times.minutes)}:${pad0(times.seconds)}:${pad0(Math.floor(times.miliseconds))}`;
     }
+
     start() {
         if (!this.running) {
             this.running = true;
             this.watch = setInterval(() => this.step(), 10);
         }
     }
-    
+
     step() {
         if (!this.running) return;
-        this.calculate();
+        this.calculate() ;
         this.print();
     }
-    
+
     calculate() {
         this.times.miliseconds += 1;
         if (this.times.miliseconds >= 100) {
@@ -46,13 +46,27 @@ class Stopwatch {
             this.times.seconds = 0;
         }
     }
-    
+
     stop() {
         this.running = false;
         clearInterval(this.watch);
     }
-}
 
+    resetCount() {
+        this.reset();
+        this.print();
+    }
+
+    saveRecord() {
+        let element = document.createElement('li');
+        element.innerText = this.format(this.times);
+        results.appendChild(element);
+    }
+
+    resetList() {
+        results.innerHTML = '';
+    }
+}
 
 function pad0(value) {
     let result = value.toString();
@@ -62,10 +76,12 @@ function pad0(value) {
     return result;
 }
 
-
-
 const stopwatch = new Stopwatch(
-document.querySelector('.stopwatch'));
+    document.querySelector('.stopwatch')
+);
+
+var record = document.getElementById('record');
+var results = document.getElementById('results');
 
 var startButton = document.getElementById('start');
 startButton.addEventListener('click', () => stopwatch.start());
@@ -73,8 +89,14 @@ startButton.addEventListener('click', () => stopwatch.start());
 var stopButton = document.getElementById('stop');
 stopButton.addEventListener('click', () => stopwatch.stop());
 
+var resetButton = document.getElementById('reset');
+resetButton.addEventListener('click', () => stopwatch.resetCount());
+
+var recordBtn = document.getElementById('record-btn');
+recordBtn.addEventListener('click', () => stopwatch.saveRecord());
+
+var resetListBtn = document.getElementById('reset-btn');
+resetListBtn.addEventListener('click', () => stopwatch.resetList());
 
 
-
- 
 

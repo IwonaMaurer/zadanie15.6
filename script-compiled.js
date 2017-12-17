@@ -71,6 +71,24 @@ var Stopwatch = function () {
             this.running = false;
             clearInterval(this.watch);
         }
+    }, {
+        key: 'resetCount',
+        value: function resetCount() {
+            this.reset();
+            this.print();
+        }
+    }, {
+        key: 'saveRecord',
+        value: function saveRecord() {
+            var element = document.createElement('li');
+            element.innerText = this.format(this.times);
+            results.appendChild(element);
+        }
+    }, {
+        key: 'resetList',
+        value: function resetList() {
+            results.innerHTML = '';
+        }
     }]);
 
     return Stopwatch;
@@ -86,6 +104,9 @@ function pad0(value) {
 
 var stopwatch = new Stopwatch(document.querySelector('.stopwatch'));
 
+var record = document.getElementById('record');
+var results = document.getElementById('results');
+
 var startButton = document.getElementById('start');
 startButton.addEventListener('click', function () {
     return stopwatch.start();
@@ -94,4 +115,19 @@ startButton.addEventListener('click', function () {
 var stopButton = document.getElementById('stop');
 stopButton.addEventListener('click', function () {
     return stopwatch.stop();
+});
+
+var resetButton = document.getElementById('reset');
+resetButton.addEventListener('click', function () {
+    return stopwatch.resetCount();
+});
+
+var recordBtn = document.getElementById('record-btn');
+recordBtn.addEventListener('click', function () {
+    return stopwatch.saveRecord();
+});
+
+var resetListBtn = document.getElementById('reset-btn');
+resetListBtn.addEventListener('click', function () {
+    return stopwatch.resetList();
 });
